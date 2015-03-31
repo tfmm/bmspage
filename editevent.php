@@ -26,7 +26,7 @@ if( $_SESSION['access'] != 1 ) {
     </head>
     <body>
 	<div class=header>
-		<h1>Liquidweb BMS Events</h1>
+		<h1>BMS Events</h1>
 		<?php
 			if(isset($_SESSION['uname'])) {
                                 echo "Hello, ";
@@ -83,7 +83,7 @@ if( $_SESSION['access'] != 1 ) {
 		}
 		} else {
 			echo "Database Error";
-		} 
+		}
 		echo $unitname;
 	?>
 				</td>
@@ -126,7 +126,7 @@ if( $_SESSION['access'] != 1 ) {
 				<td>
 					Issue Description:
 				</td>
-				<td>			
+				<td>
 					<input type="text" name="description" id="description" required value="<?=$desc;?>" />
 				</td>
 			</tr>
@@ -137,7 +137,7 @@ if( $_SESSION['access'] != 1 ) {
 				<td>
 	<?php
 		if ($ongoing == 1) $checked= ' checked="true"';
-      
+
 	echo '<input type="checkbox" name="is_ongoing" id="is_ongoing" value="1"' . $checked .' />';
 	?>
 				</td>
@@ -156,7 +156,7 @@ if( $_SESSION['access'] != 1 ) {
 				</td>
 			</tr>
 		</table>
-		You must press "Submit" to record the update!	
+		You must press "Submit" to record the update!
         <input type="hidden" name="event" id="event" value="<?=$eventid;?>"/>
         <input type="hidden" name="user" id="user" value="<?=$uname;?>"/>
         </form>

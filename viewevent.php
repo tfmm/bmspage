@@ -15,8 +15,8 @@ if( $_SESSION['access'] != 1 ) {
         </head>
 <body>
         <div class=header>
-                <h1>Liquidweb BMS Events</h1>
-                <?php 
+                <h1>BMS Events</h1>
+                <?php
                         if(isset($_SESSION['uname'])) {
                                 echo "Hello, ";
                                 print_r($_SESSION['uname']);
@@ -47,7 +47,7 @@ $eventid=$_GET['eventid'];
 			echo "Start Date and Time: ";
 			print_r($row1['date_time_start']);
                         echo "<br />";
-			echo "Currently Ongoing? "; 
+			echo "Currently Ongoing? ";
 				if($row1['is_ongoing'] ==1) {
 					echo "Yes";
 				} else {
@@ -55,7 +55,7 @@ $eventid=$_GET['eventid'];
 				}
                         echo "<br />";
 			echo "End Date and Time: ";
-			print_r($row1['date_time_end']); 
+			print_r($row1['date_time_end']);
 		}
 		} else {
                         echo "<h4>ERROR Event ID Not Found</h4>";

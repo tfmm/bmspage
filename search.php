@@ -15,7 +15,7 @@ if( $_SESSION['access'] != 1 ) {
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<link rel="stylesheet" type="text/css" href="includes/js/dtp/jquery.datetimepicker.css"/ >
 		<script src="includes/js/dtp/jquery.js"></script>
-		<script src="includes/js/dtp/jquery.datetimepicker.js"></script>                
+		<script src="includes/js/dtp/jquery.datetimepicker.js"></script>
 		<title>BMS Event Search</title>
 		<script>
 			$(function() {
@@ -86,8 +86,8 @@ if( $_SESSION['access'] != 1 ) {
 </head>
 <body>
         <div class=header>
-                <h1>Liquidweb BMS Events</h1>
-                <?php 
+                <h1>BMS Events</h1>
+                <?php
                         if(isset($_SESSION['uname'])) {
                                 echo "Hello, ";
                                 print_r($_SESSION['uname']);
@@ -152,7 +152,7 @@ if( $_SESSION['access'] != 1 ) {
 				</tr>
 			</table>
 		</form>
-Search by Unit, start date, or end date of the event.  The form will accept any or all of these three options. 
+Search by Unit, start date, or end date of the event.  The form will accept any or all of these three options.
 <br />
 When entering start or end date, enter any portion of the value, and the search should return relevant data.
 </body>

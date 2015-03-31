@@ -21,8 +21,8 @@ if(!empty($unit)) {
 			$query = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id WHERE events.unit_id='$unit' AND date_time_start LIKE '%$start_date_time%'";
 		}
 	} else {
-		$query = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id WHERE events.unit_id='$unit'"; 
-	} 
+		$query = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id WHERE events.unit_id='$unit'";
+	}
 } else {
         if(!empty($start_date_time)) {
                 if(!empty($end_date_time)) {
@@ -43,8 +43,8 @@ if($result->num_rows >0){
         </head>
 <body>
         <div class=header>
-                <h1>Liquidweb BMS Events</h1>
-                <?php 
+                <h1>BMS Events</h1>
+                <?php
                         if(isset($_SESSION['uname'])) {
                                 echo "Hello, ";
                                 print_r($_SESSION['uname']);
@@ -61,7 +61,7 @@ if($result->num_rows >0){
                                 echo "<tr><td><a href=https://utilities.mon.liquidweb.com/bms/viewevent.php?eventid=".$row1["event_id"]." target=_blank>".$row1["event_id"]."</a></td><td>".$row1["unit_name"]."</td><td>".$row1["alert_name"]."</td><td>".$row1["date_time_start"]."</td><td>".$row1["description"]."</td><td>".$row1["date_time_end"]."</td><td>".$row1["user"]."</td><td><a href=http://utilities.mon.liquidweb.com/bms/editevent.php?event_id=".$row1["event_id"]." target=blank>Edit</a></td></tr> ";
                         }
                         echo "</table>";
-                } 
+                }
 
 } else{
         echo('No Results Found! Please <a href="javascript:history.back()">Go back</a> and try again');

@@ -16,7 +16,7 @@ if( $_SESSION['access'] != 1 ) {
 	</head>
 <body>
 	<div class=header>
-		<h1>Liquidweb BMS Events</h1>
+		<h1>BMS Events</h1>
 		<?php
 			if(isset($_SESSION['uname'])) {
 				echo "Hello, ";
