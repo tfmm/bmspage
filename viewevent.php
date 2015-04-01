@@ -36,26 +36,31 @@ $eventid=$_GET['eventid'];
                 if ($result1->num_rows >0){
                         while ($row1 = $result1->fetch_assoc()) {
 			echo "<br />";
-		//	echo "Datacenter: ";
-		//	$row1['dc_name'];
-			echo "Unit: ";
-			print_r($row1['unit_name']);
-                        echo "<br />";
-			echo "Alert: ";
-			print_r($row1['alert_name']);
-                        echo "<br />";
-			echo "Start Date and Time: ";
-			print_r($row1['date_time_start']);
-                        echo "<br />";
-			echo "Currently Ongoing? ";
-				if($row1['is_ongoing'] ==1) {
-					echo "Yes";
-				} else {
-					echo "No";
-				}
-                        echo "<br />";
-			echo "End Date and Time: ";
-			print_r($row1['date_time_end']);
+      echo "<table align='center'><tr><td>";
+      echo "Unit: ";
+      echo "</td><td>";
+      print_r($row1['unit_name']);
+      echo "</td></tr><tr><td>";
+      echo "Alert: ";
+      echo "</td><td>";
+      print_r($row1['alert_name']);
+      echo "</td></tr><tr><td>";
+      echo "Start Date and Time: ";
+      echo "</td><td>";
+      print_r($row1['date_time_start']);
+      echo "</td></tr><tr><td>";
+      echo "Currently Ongoing? ";
+      echo "</td><td>";
+              if($row1['is_ongoing'] ==1) {
+                      echo "Yes";
+              } else {
+                      echo "No";
+              }
+      echo "</td></tr><tr><td>";
+      echo "End Date and Time: ";
+      echo "</td><td>";
+      print_r($row1['date_time_end']);
+      echo "</td></tr></table>";
 		}
 		} else {
                         echo "<h4>ERROR Event ID Not Found</h4>";
