@@ -36,7 +36,7 @@ if( $_SESSION['access'] != 1 ) {
 		if ($result1->num_rows >0){
 			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Edit</th></tr>";
 			while ($row1 = $result1->fetch_assoc()) {
-				echo "<tr><td><a href=https://utilities.mon.liquidweb.com/bms/viewevent.php?eventid=".$row1["event_id"]." target=_blank>".$row1["event_id"]."</a></td><td>".$row1["unit_name"]."</td><td>".$row1["alert_name"]."</td><td>".$row1["date_time_start"]."</td><td>".$row1["description"]."</td><td>".$row1["date_time_end"]."</td><td>".$row1["user"]."</td><td><a href=http://utilities.mon.liquidweb.com/bms/editevent.php?event_id=".$row1["event_id"]." target=blank>Edit</a></td></tr> ";
+				echo "<tr><td><a href=https://DOMAIN.com/bms/viewevent.php?eventid=".$row1["event_id"]." target=_blank>".$row1["event_id"]."</a></td><td>".$row1["unit_name"]."</td><td>".$row1["alert_name"]."</td><td>".$row1["date_time_start"]."</td><td>".$row1["description"]."</td><td>".$row1["date_time_end"]."</td><td>".$row1["user"]."</td><td><a href=http://DOMAIN.com/bms/editevent.php?event_id=".$row1["event_id"]." target=blank>Edit</a></td></tr> ";
 			}
 			echo "</table>";
 		} else {
@@ -52,7 +52,7 @@ if( $_SESSION['access'] != 1 ) {
 			echo "This does not include ongoing events.";
 			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Edit</th></tr>";
 			while ($row2 = $result2->fetch_assoc()) {
-			        echo "<tr><td><a href=https://utilities.mon.liquidweb.com/bms/viewevent.php?eventid=".$row2["event_id"]." target=_blank>".$row2["event_id"]."</a></td><td>".$row2["unit_name"]."</td><td>".$row2["alert_name"]."</td><td>".$row2["date_time_start"]."</td><td>".$row2["description"]."</td><td>".$row2["date_time_end"]."</td><td>".$row2["user"]."</td><td><a href=http://utilities.mon.liquidweb.com/bms/editevent.php?event_id=".$row2["event_id"]." target=blank>Edit</a></td></tr> ";
+			        echo "<tr><td><a href=https://DOMAIN.com/bms/viewevent.php?eventid=".$row2["event_id"]." target=_blank>".$row2["event_id"]."</a></td><td>".$row2["unit_name"]."</td><td>".$row2["alert_name"]."</td><td>".$row2["date_time_start"]."</td><td>".$row2["description"]."</td><td>".$row2["date_time_end"]."</td><td>".$row2["user"]."</td><td><a href=http://DOMAIN.com/bms/editevent.php?event_id=".$row2["event_id"]." target=blank>Edit</a></td></tr> ";
 			}
 			echo "</table>";
 		} else {
