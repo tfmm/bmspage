@@ -63,7 +63,7 @@ if( $_SESSION['access'] != 1 ) {
 		}
 	include "includes/classes/select2.class.php"; ?>
 	<br />
-        <form id="select_form" required method="post" action="includes/update_event.php">
+        <form id="select_form" required method="post" action="includes/update_event1.php">
 		<table align=center>
 			<tr>
 				<td>
@@ -127,7 +127,7 @@ if( $_SESSION['access'] != 1 ) {
 					Issue Description:
 				</td>
 				<td>
-					<input type="text" name="description" id="description" required value="<?=$desc;?>" />
+                                        <textarea name="description" id="description" cols="40" rows="5" required><?=$desc?></textarea>
 				</td>
 			</tr>
 			<tr>

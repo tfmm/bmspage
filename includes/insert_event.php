@@ -4,7 +4,7 @@ $conn = mysqli_connect($servername, $username, $password, $db);
 
 $unit = mysqli_real_escape_string($conn, $_POST['unit']);
 $start_date_time = mysqli_real_escape_string($conn, $_POST['start_date_time']);
-$description = mysqli_real_escape_string($conn, $_POST['description']);
+$description = $_POST['description'];
 $is_ongoing = mysqli_real_escape_string($conn, $_POST['is_ongoing']);
 $end_date_time = mysqli_real_escape_string($conn, $_POST['end_date_time']);
 $alert = mysqli_real_escape_string($conn, $_POST['alert']);
