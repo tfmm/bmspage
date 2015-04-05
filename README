@@ -1,0 +1,3 @@
+This project was created to provide my workplace's Maintenance and Monitoring Teams a place to correspond about Building Maintenance Systems issues and events.
+
+The MySQL directory holds a structure-only .sql dump of the database used.  This should NOT be placed in a web-accessible area.
