@@ -18,17 +18,17 @@ if( $_SESSION['access'] != 1 ) {
     <script src="includes/js/dtp/jquery.datetimepicker.js"></script>
     <title>Edit BMS Event</title>
     <script>
-    $(function() {
+    $(document).ready(function() {
       $('#start_date_time').datetimepicker();
       $('#end_date_time').datetimepicker();
-    });
     $('#select_form').submit(function(event) {
-      alert('test');
-      if ($.trim($("#is_ongoing").val()) === "" && $.trim($("#end_date_time").val()) === "") {
+
+      if (!$("#is_ongoing").prop("checked") && $("#end_date_time").val() === "") {
         alert('You must enter a value for Currently Ongoing or End Date and Time');
     event.preventDefault();
         return false;
       }
+    });
     });
     </script>
     </head>
@@ -71,7 +71,7 @@ if( $_SESSION['access'] != 1 ) {
 		}
 	include "includes/classes/select2.class.php"; ?>
 	<br />
-        <form id="select_form" required method="post" action="includes/update_event1.php">
+        <form id="select_form" required method="post" action="includes/update_event.php">
 		<table align=center>
 			<tr>
 				<td>

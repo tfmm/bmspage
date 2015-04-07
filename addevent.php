@@ -17,9 +17,17 @@ if( $_SESSION['access'] != 1 ) {
     <script src="includes/js/dtp/jquery.datetimepicker.js"></script>
     <title>Add BMS Event</title>
     <script>
-    $(function() {
+    $(document).ready(function() {
       $('#start_date_time').datetimepicker();
       $('#end_date_time').datetimepicker();
+    $('#select_form').submit(function(event) {
+
+      if (!$("#is_ongoing").prop("checked") && $("#end_date_time").val() === "") {
+        alert('You must enter a value for Currently Ongoing or End Date and Time');
+    event.preventDefault();
+        return false;
+      }
+    });
     });
     </script>
     <script type="text/javascript">
@@ -106,7 +114,7 @@ if( $_SESSION['access'] != 1 ) {
 	</div>
         <?php include "includes/classes/select.class.php";?>
 	<br />
-        <form id="select_form" required method="post" action="includes/insert_event1.php">
+        <form id="select_form" required method="post" action="includes/insert_event.php">
 		<table align="center">
 			<tr>
 				<td>
@@ -161,7 +169,7 @@ if( $_SESSION['access'] != 1 ) {
 					Issue Description:
 				</td>
 				<td>
-					<textarea name="description" id="description" cols="40" rows="5" required > </textarea>
+					<textarea name="description" id="description" cols="40" rows="5" required></textarea>
 				</td>
 			</tr>
 			<tr>
