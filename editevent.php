@@ -22,6 +22,14 @@ if( $_SESSION['access'] != 1 ) {
       $('#start_date_time').datetimepicker();
       $('#end_date_time').datetimepicker();
     });
+    $('#select_form').submit(function(event) {
+      alert('test');
+      if ($.trim($("#is_ongoing").val()) === "" && $.trim($("#end_date_time").val()) === "") {
+        alert('You must enter a value for Currently Ongoing or End Date and Time');
+    event.preventDefault();
+        return false;
+      }
+    });
     </script>
     </head>
     <body>
@@ -152,7 +160,7 @@ if( $_SESSION['access'] != 1 ) {
 			</tr>
 			<tr>
 				<td colspan=2 class="ui-helper-center">
-				        <input type="submit" value="Submit" />
+					<input type="submit" value="Submit"/>
 				</td>
 			</tr>
 		</table>
