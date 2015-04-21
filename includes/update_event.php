@@ -15,7 +15,7 @@ $timestamp = new DateTime();
 $update_date_time = date_format($timestamp, 'Y/m/d H:i');
 
 //Insert event update into event updates table
-$update = "INSERT INTO event_updates (update_desc, update_date_time, update_is_ongoing, end_date_time, event_id, user) VALUES ('$description', '$update_date_time', '$is_ongoing', '$end_date_time', '$event_id', '$user')";
+$update = "INSERT INTO event_updates (update_desc, update_date_time, update_is_ongoing, end_date_time, event_id, update_user) VALUES ('$description', '$update_date_time', '$is_ongoing', '$end_date_time', '$event_id', '$user')";
 
 //Update value of is_ongoing in main events table
 $is_ongoing_endtime_query = "UPDATE events SET is_ongoing='$is_ongoing', date_time_end='$end_date_time' WHERE event_id='$event_id'";

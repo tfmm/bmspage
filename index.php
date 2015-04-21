@@ -31,28 +31,104 @@ if( $_SESSION['access'] != 1 ) {
 		if ($conn1->connect_error) {
 			die("Connection Failed: " . $conn1->connect_error);
 		}
-		$sql1 = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id where is_ongoing=1;";
-		$result1 = $conn1->query($sql1);
-		if ($result1->num_rows >0){
-			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Edit</th></tr>";
-			while ($row1 = $result1->fetch_assoc()) {
-				echo "<tr><td><a href=https://DOMAIN.com/bms/viewevent.php?eventid=".$row1["event_id"]." target=_blank>".$row1["event_id"]."</a></td><td>".$row1["unit_name"]."</td><td>".$row1["alert_name"]."</td><td>".$row1["date_time_start"]."</td><td>".$row1["description"]."</td><td>".$row1["date_time_end"]."</td><td>".$row1["user"]."</td><td><a href=http://DOMAIN.com/bms/editevent.php?event_id=".$row1["event_id"]." target=blank>Edit</a></td></tr> ";
+		$currently_ongoing_query = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id where is_ongoing=1;";
+		$currently_ongoing_result = $conn1->query($currently_ongoing_query);
+		if ($currently_ongoing_result->num_rows >0){
+			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Updates</th><th>Edit</th></tr>";
+			while ($currently_ongoing_row = $currently_ongoing_result->fetch_assoc()) {
+				echo "<tr><td>";
+				echo "<a href=viewevent.php?eventid=".$currently_ongoing_row["event_id"]." target=_blank>".$currently_ongoing_row["event_id"]."</a>";
+				echo "</td><td>";
+				print_r($currently_ongoing_row["unit_name"]);
+				echo "</td><td>";
+				print_r($currently_ongoing_row["alert_name"]);
+				echo "</td><td>";
+				print_r($currently_ongoing_row["date_time_start"]);
+				echo "</td><td>";
+				echo nl2br($currently_ongoing_row["description"]);
+				echo "</td><td>";
+				print_r($currently_ongoing_row["date_time_end"]);
+				echo "</td><td>";
+				print_r($currently_ongoing_row["user"]);
+				echo "</td><td>";
+					$update_query = "SELECT update_desc, update_date_time, update_user FROM event_updates WHERE event_updates.event_id=".$currently_ongoing_row["event_id"].";";
+					$update_result = $conn1->query($update_query);
+					if ($update_result->num_rows >0){
+						while ($update_row = $update_result->fetch_assoc()) {
+							echo "<table align='center'><tr><td>";
+							echo "Info: ";
+							echo "</td><td>";
+							echo nl2br($update_row['update_desc']);
+							echo "</td></tr><tr><td>";
+							echo "User: ";
+							echo "</td><td>";
+							print_r($update_row['update_user']);
+							echo "</td></tr><tr><td>";
+							echo "Time: ";
+							echo "</td><td>";
+							print_r($update_row['update_date_time']);
+							echo "</td></tr></table>";
+						}
+						} else {
+							echo "No updates to this event";
+						}
+
+                                echo "</td><td>";
+				echo "<a href=editevent.php?event_id=".$currently_ongoing_row["event_id"]." target=blank>Edit</a></td></tr> ";
 			}
 			echo "</table>";
 		} else {
 			echo "<h5>No Ongoing Events at This Time</h5>";
 		}
 		if ($conn1->connect_error) {
-		        die("Connection Failed: " . $conn2->connect_error);
+		        die("Connection Failed: " . $conn1->connect_error);
 		}
-		$sql2 = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id where is_ongoing=0 ORDER BY date_time_end DESC LIMIT 10;";
-		$result2 = $conn1->query($sql2);
-		if ($result2->num_rows >0){
+		$past_event_query = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id where is_ongoing=0 ORDER BY date_time_end DESC LIMIT 10;";
+		$past_event_result = $conn1->query($past_event_query);
+		if ($past_event_result->num_rows >0){
 			echo "<h3>Previous 10 Events</h3>";
 			echo "This does not include ongoing events.";
-			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Edit</th></tr>";
-			while ($row2 = $result2->fetch_assoc()) {
-			        echo "<tr><td><a href=https://DOMAIN.com/bms/viewevent.php?eventid=".$row2["event_id"]." target=_blank>".$row2["event_id"]."</a></td><td>".$row2["unit_name"]."</td><td>".$row2["alert_name"]."</td><td>".$row2["date_time_start"]."</td><td>".$row2["description"]."</td><td>".$row2["date_time_end"]."</td><td>".$row2["user"]."</td><td><a href=http://DOMAIN.com/bms/editevent.php?event_id=".$row2["event_id"]." target=blank>Edit</a></td></tr> ";
+			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Updates</th><th>Edit</th></tr>";
+			while ($past_event_row = $past_event_result->fetch_assoc()) {
+			        echo "<tr><td>";
+				echo "<a href=viewevent.php?eventid=".$past_event_row["event_id"]." target=_blank>".$past_event_row["event_id"]."</a>";
+				echo "</td><td>";
+				print_r($past_event_row["unit_name"]);
+				echo "</td><td>";
+				print_r($past_event_row["alert_name"]);
+				echo "</td><td>";
+				print_r($past_event_row["date_time_start"]);
+				echo "</td><td>";
+				echo nl2br($past_event_row["description"]);
+				echo "</td><td>";
+				print_r($past_event_row["date_time_end"]);
+				echo "</td><td>";
+				print_r($past_event_row["user"]);
+				echo "</td><td>";
+                                        $update_query = "SELECT update_desc, update_date_time, update_user FROM event_updates WHERE event_updates.event_id=".$past_event_row["event_id"].";";
+                                        $update_result = $conn1->query($update_query);
+                                        if ($update_result->num_rows >0){
+                                                while ($update_row = $update_result->fetch_assoc()) {
+                                                        echo "<table align='center'><tr><td>";
+                                                        echo "Info: ";
+                                                        echo "</td><td>";
+                                                        echo nl2br($update_row['update_desc']);
+                                                        echo "</td></tr><tr><td>";
+                                                        echo "User: ";
+                                                        echo "</td><td>";
+                                                        print_r($update_row['update_user']);
+                                                        echo "</td></tr><tr><td>";
+                                                        echo "Time: ";
+                                                        echo "</td><td>";
+                                                        print_r($update_row['update_date_time']);
+                                                        echo "</td></tr></table>";
+                                                }
+                                                } else {
+                                                        echo "No updates to this event";
+                                                }
+                                echo "</td><td>";
+				echo "<a href=editevent.php?event_id=".$past_event_row["event_id"]." target=blank>Edit</a>";
+				echo "</td></tr>";
 			}
 			echo "</table>";
 		} else {

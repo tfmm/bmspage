@@ -135,7 +135,15 @@ if( $_SESSION['access'] != 1 ) {
 					Issue Description:
 				</td>
 				<td>
-                                        <textarea name="description" id="description" cols="40" rows="5" required><?=$desc?></textarea>
+					<?=$desc?>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Update:
+				</td>
+				<td>
+                                        <textarea name="description" id="description" cols="40" rows="5" required></textarea>
 				</td>
 			</tr>
 			<tr>
