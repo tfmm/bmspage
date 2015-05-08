@@ -71,7 +71,7 @@ if( $_SESSION['access'] != 1 ) {
 		}
 	include "includes/classes/select2.class.php"; ?>
 	<br />
-        <form id="select_form" required method="post" action="includes/update_event.php">
+        <form id="select_form" required method="post" action="includes/update_event.php" enctype="multipart/form-data">
 		<table align=center>
 			<tr>
 				<td>
@@ -135,7 +135,7 @@ if( $_SESSION['access'] != 1 ) {
 					Issue Description:
 				</td>
 				<td>
-					<?=$desc?>
+					<?=nl2br($desc)?>
 				</td>
 			</tr>
 			<tr>
@@ -164,6 +164,14 @@ if( $_SESSION['access'] != 1 ) {
 				</td>
 				<td>
 				        <input type="text" name="end_date_time" id="end_date_time" value="<?=$endtimedate;?>" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Attach an image:
+				</td>
+				<td>
+                                        <input type="file" name="fileToUpload" id="fileToUpload" />
 				</td>
 			</tr>
 			<tr>

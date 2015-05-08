@@ -2,20 +2,71 @@
 	include "db_config.php";
 $conn = mysqli_connect($servername, $username, $password, $db);
 
+//Allow Image Upload
+$target_dir = "../images/";
+if(empty($_FILES["fileToUpload"]["name"])) {
+        $target_file_name = "";
+	$target_file = "";
+	$image_link = "";
+} else {
+	$target_file_name = preg_replace('/[^a-zA-Z0-9s.]/', '_', basename($_FILES["fileToUpload"]["name"]));
+	$target_file = $target_dir . $target_file_name;
+	$image_link = mysqli_real_escape_string($conn, "https://DOMAIN.com/bms/images/$target_file_name");
+}
+$uploadOk = 1;
+$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+// Check if image file is a actual image or fake image
+if(isset($_POST["submit"])) {
+    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    if($check !== false) {
+        echo "File is an image - " . $check["mime"] . ".";
+        $uploadOk = 1;
+    } else {
+        echo "File is not an image.";
+        $uploadOk = 0;
+    }
+}
+// Check if file already exists
+if (file_exists($target_file)) {
+    echo "Sorry, file already exists.";
+    $uploadOk = 0;
+}
+// Check file size
+if ($_FILES["fileToUpload"]["size"] > 500000) {
+    echo "Sorry, your file is too large.";
+    $uploadOk = 0;
+}
+// Allow certain file formats
+if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+&& $imageFileType != "gif" ) {
+    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+    $uploadOk = 0;
+}
+// Check if $uploadOk is set to 0 by an error
+if ($uploadOk == 0) {
+    echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+} else {
+    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+}
+
+//Set Variables
 $event_id = mysqli_real_escape_string($conn, $_POST['event']);
 $description = mysqli_real_escape_string($conn, $_POST['description']);
 $is_ongoing = mysqli_real_escape_string($conn, $_POST['is_ongoing']);
 $end_date_time = mysqli_real_escape_string($conn, $_POST['end_date_time']);
 $user = mysqli_real_escape_string($conn, $_POST['user']);
 
-$description_for_email = nl2br($_POST['description']);
-
 //Get timestamp
 $timestamp = new DateTime();
 $update_date_time = date_format($timestamp, 'Y/m/d H:i');
 
 //Insert event update into event updates table
-$update = "INSERT INTO event_updates (update_desc, update_date_time, update_is_ongoing, end_date_time, event_id, update_user) VALUES ('$description', '$update_date_time', '$is_ongoing', '$end_date_time', '$event_id', '$user')";
+$update_query = "INSERT INTO event_updates (update_desc, update_date_time, update_is_ongoing, end_date_time, event_id, update_user, update_image) VALUES ('$description', '$update_date_time', '$is_ongoing', '$end_date_time', '$event_id', '$user', '$image_link')";
 
 //Update value of is_ongoing in main events table
 $is_ongoing_endtime_query = "UPDATE events SET is_ongoing='$is_ongoing', date_time_end='$end_date_time' WHERE event_id='$event_id'";
@@ -36,19 +87,21 @@ $start_date_time_query = "SELECT date_time_start FROM events WHERE event_id=".$_
 $start_date_time_query_run = mysqli_query($conn, $start_date_time_query);
 $start_date_time_array = mysqli_fetch_assoc($start_date_time_query_run);
 $start_date_time = $start_date_time_array['date_time_start'];
+
+$description_for_email = nl2br($_POST['description']);
 //If successful, redirect back to index.php and send email, else tell user that it failed.
 $event_update = mysqli_query($conn, $is_ongoing_endtime_query);
-$result = mysqli_query($conn, $update);
+$result = mysqli_query($conn, $update_query);
 if($result){
         echo("Event added, redirecting...");
         sleep (2);
         header('Location: ../index.php');
         //Set Email Info
-        $to = "TO.ADDRES@DOMAIN.com";
-        $subject = "TEST Updated BMS Alert: ".$unitname." ".$alertname."";
+        $to = "TOEMAIL@DOMAIN.com";
+        $subject = "Updated BMS Alert: ".$unitname." ".$alertname."";
 	$headers = "MIME-Version: 1.0" . "\r\n";
 	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-	$headers .= "From: FROM.ADDRESS@DOMAIN.com";
+	$headers .= "From: FROMEMAIL@DOMAIN.com";
 	$message = "
 		<html>
 		<body>
@@ -63,6 +116,8 @@ if($result){
 		Description: ".$description_for_email."
 		<br />
 		Updated by: ".$user."
+		<br />
+		Image Link (if any): ".$image_link."
 		<br />
 		Event Link: https://DOMAIN.com/bms/viewevent.php?eventid=$event_id
 		<br /><br />

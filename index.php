@@ -34,7 +34,7 @@ if( $_SESSION['access'] != 1 ) {
 		$currently_ongoing_query = "SELECT * FROM events AS events INNER JOIN units AS units ON events.unit_id=units.unit_id INNER JOIN alerts as alerts ON events.alert_id=alerts.alert_id where is_ongoing=1;";
 		$currently_ongoing_result = $conn1->query($currently_ongoing_query);
 		if ($currently_ongoing_result->num_rows >0){
-			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Updates</th><th>Edit</th></tr>";
+			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Updates</th><th>Attachments</th><th>Edit</th></tr>";
 			while ($currently_ongoing_row = $currently_ongoing_result->fetch_assoc()) {
 				echo "<tr><td>";
 				echo "<a href=viewevent.php?eventid=".$currently_ongoing_row["event_id"]." target=_blank>".$currently_ongoing_row["event_id"]."</a>";
@@ -51,7 +51,7 @@ if( $_SESSION['access'] != 1 ) {
 				echo "</td><td>";
 				print_r($currently_ongoing_row["user"]);
 				echo "</td><td>";
-					$update_query = "SELECT update_desc, update_date_time, update_user FROM event_updates WHERE event_updates.event_id=".$currently_ongoing_row["event_id"].";";
+					$update_query = "SELECT update_desc, update_date_time, update_user, update_image FROM event_updates WHERE event_updates.event_id=".$currently_ongoing_row["event_id"].";";
 					$update_result = $conn1->query($update_query);
 					if ($update_result->num_rows >0){
 						while ($update_row = $update_result->fetch_assoc()) {
@@ -67,12 +67,27 @@ if( $_SESSION['access'] != 1 ) {
 							echo "Time: ";
 							echo "</td><td>";
 							print_r($update_row['update_date_time']);
-							echo "</td></tr></table>";
+							echo "</td></tr>";
+                                                        if(empty($update_row['update_image'])) {
+                                                                echo "</table>";
+                                                        } else {
+                                                                echo "<tr><td>";
+                                                                echo "Image: ";
+                                                                echo "</td><td>";
+                                                                echo "<a href=".$update_row['update_image']." target=blank>Attachment</a>";
+                                                                echo "</td></tr></table>";
+                                                        }
 						}
 						} else {
 							echo "No updates to this event";
 						}
 
+                                echo "</td><td>";
+				if(empty($currently_ongoing_row["event_image"])) {
+					echo "";
+				} else{
+					echo "<a href=".$currently_ongoing_row["event_image"]." target=blank>Attachment</a>";
+				}
                                 echo "</td><td>";
 				echo "<a href=editevent.php?event_id=".$currently_ongoing_row["event_id"]." target=blank>Edit</a></td></tr> ";
 			}
@@ -88,7 +103,7 @@ if( $_SESSION['access'] != 1 ) {
 		if ($past_event_result->num_rows >0){
 			echo "<h3>Previous 10 Events</h3>";
 			echo "This does not include ongoing events.";
-			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Updates</th><th>Edit</th></tr>";
+			echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Updates</th><th>Attachments</th><th>Edit</th></tr>";
 			while ($past_event_row = $past_event_result->fetch_assoc()) {
 			        echo "<tr><td>";
 				echo "<a href=viewevent.php?eventid=".$past_event_row["event_id"]." target=_blank>".$past_event_row["event_id"]."</a>";
@@ -105,7 +120,7 @@ if( $_SESSION['access'] != 1 ) {
 				echo "</td><td>";
 				print_r($past_event_row["user"]);
 				echo "</td><td>";
-                                        $update_query = "SELECT update_desc, update_date_time, update_user FROM event_updates WHERE event_updates.event_id=".$past_event_row["event_id"].";";
+                                        $update_query = "SELECT update_desc, update_date_time, update_user, update_image FROM event_updates WHERE event_updates.event_id=".$past_event_row["event_id"].";";
                                         $update_result = $conn1->query($update_query);
                                         if ($update_result->num_rows >0){
                                                 while ($update_row = $update_result->fetch_assoc()) {
@@ -121,11 +136,26 @@ if( $_SESSION['access'] != 1 ) {
                                                         echo "Time: ";
                                                         echo "</td><td>";
                                                         print_r($update_row['update_date_time']);
-                                                        echo "</td></tr></table>";
+                                                        echo "</td></tr>";
+							if(empty($update_row['update_image'])) {
+								echo "</table>";
+							} else {
+								echo "<tr><td>";
+								echo "Image: ";
+								echo "</td><td>";
+								echo "<a href=".$update_row['update_image']." target=blank>Attachment</a>";
+								echo "</td></tr></table>";
+							}
                                                 }
                                                 } else {
                                                         echo "No updates to this event";
                                                 }
+                                echo "</td><td>";
+				if(empty($past_event_row["event_image"])) {
+					echo "";
+				} else {
+					echo "<a href=".$past_event_row["event_image"]." target=blank>Attachment</a>";
+				}
                                 echo "</td><td>";
 				echo "<a href=editevent.php?event_id=".$past_event_row["event_id"]." target=blank>Edit</a>";
 				echo "</td></tr>";
