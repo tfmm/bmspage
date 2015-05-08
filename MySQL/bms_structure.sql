@@ -29,7 +29,7 @@ CREATE TABLE `alerts` (
   PRIMARY KEY (`alert_id`),
   KEY `fk_alertsunittype` (`utype_id`),
   CONSTRAINT `fk_alertsunittype` FOREIGN KEY (`utype_id`) REFERENCES `unittypes` (`utype_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=70 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,6 +44,28 @@ CREATE TABLE `datacenters` (
   `dc_name` varchar(20) NOT NULL,
   PRIMARY KEY (`dc_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `event_updates`
+--
+
+DROP TABLE IF EXISTS `event_updates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_updates` (
+  `update_id` int(11) NOT NULL AUTO_INCREMENT,
+  `update_desc` text,
+  `update_date_time` varchar(99) DEFAULT NULL,
+  `update_is_ongoing` tinyint(1) DEFAULT NULL,
+  `end_date_time` varchar(99) DEFAULT NULL,
+  `event_id` int(11) DEFAULT NULL,
+  `update_user` varchar(99) DEFAULT NULL,
+  `update_image` varchar(255) NOT NULL,
+  PRIMARY KEY (`update_id`),
+  KEY `fk_updatevent` (`event_id`),
+  CONSTRAINT `fk_updatevent` FOREIGN KEY (`event_id`) REFERENCES `events` (`event_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +84,7 @@ CREATE TABLE `events` (
   `date_time_end` varchar(99) DEFAULT NULL,
   `user` varchar(99) NOT NULL,
   `alert_id` int(11) DEFAULT NULL,
+  `event_image` varchar(255) NOT NULL,
   PRIMARY KEY (`event_id`),
   KEY `user` (`user`),
   KEY `fk_eventunit` (`unit_id`),
@@ -70,7 +93,7 @@ CREATE TABLE `events` (
   KEY `date_time_end` (`date_time_end`),
   CONSTRAINT `fk_eventalert` FOREIGN KEY (`alert_id`) REFERENCES `alerts` (`alert_id`),
   CONSTRAINT `fk_eventunit` FOREIGN KEY (`unit_id`) REFERENCES `units` (`unit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,4 +140,4 @@ CREATE TABLE `unittypes` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-05 19:08:30
+-- Dump completed on 2015-05-07 23:35:03
