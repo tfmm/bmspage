@@ -56,12 +56,66 @@ if($result->num_rows >0){
 <br />
 <?php
                 if ($result->num_rows >0){
-                        echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Edit</th></tr>";
-                        while ($row1 = $result->fetch_assoc()) {
-                                echo "<tr><td><a href=https://DOMAIN.com/bms/viewevent.php?eventid=".$row1["event_id"]." target=_blank>".$row1["event_id"]."</a></td><td>".$row1["unit_name"]."</td><td>".$row1["alert_name"]."</td><td>".$row1["date_time_start"]."</td><td>".$row1["description"]."</td><td>".$row1["date_time_end"]."</td><td>".$row1["user"]."</td><td><a href=http://DOMAIN.com/bms/editevent.php?event_id=".$row1["event_id"]." target=blank>Edit</a></td></tr> ";
+                echo "<table align='center'><tr><th>Event ID</th><th>Unit</th><th>Alert</th><th>Start Date and Time</th><th>Description</th><th>End Date and Time</th><th>User</th><th>Updates</th><th>Attachments</th><th>Edit</th></tr>";
+		while ($row1 = $result->fetch_assoc()) {
+                                echo "<tr><td>";
+                                echo "<a href=viewevent.php?eventid=".$row1["event_id"]." target=_blank>".$row1["event_id"]."</a>";
+                                echo "</td><td>";
+                                print_r($row1["unit_name"]);
+                                echo "</td><td>";
+                                print_r($row1["alert_name"]);
+                                echo "</td><td>";
+                                print_r($row1["date_time_start"]);
+                                echo "</td><td>";
+                                echo nl2br($row1["description"]);
+                                echo "</td><td>";
+                                print_r($row1["date_time_end"]);
+                                echo "</td><td>";
+                                print_r($row1["user"]);
+                                echo "</td><td>";
+                                        $update_query = "SELECT update_desc, update_date_time, update_user, update_image FROM event_updates WHERE event_updates.event_id=".$row1["event_id"].";";
+                                        $update_result = $conn->query($update_query);
+                                        if ($update_result->num_rows >0){
+                                                while ($update_row = $update_result->fetch_assoc()) {
+                                                        echo "<table align='center'><tr><td>";
+                                                        echo "Info: ";
+                                                        echo "</td><td>";
+                                                        echo nl2br($update_row['update_desc']);
+                                                        echo "</td></tr><tr><td>";
+                                                        echo "User: ";
+                                                        echo "</td><td>";
+                                                        print_r($update_row['update_user']);
+                                                        echo "</td></tr><tr><td>";
+                                                        echo "Time: ";
+                                                        echo "</td><td>";
+                                                        print_r($update_row['update_date_time']);
+                                                        echo "</td></tr>";
+                                                        if(empty($update_row['update_image'])) {
+                                                                echo "</table>";
+                                                        } else {
+                                                                echo "<tr><td>";
+                                                                echo "Image: ";
+                                                                echo "</td><td>";
+                                                                echo "<a href=".$update_row['update_image']." target=blank>Attachment</a>";
+                                                                echo "</td></tr></table>";
+                                                        }
+                                                }
+                                                } else {
+                                                        echo "No updates to this event";
+                                                }
+                                echo "</td><td>";
+                                if(empty($row1["event_image"])) {
+                                        echo "";
+                                } else {
+                                        echo "<a href=".$row1["event_image"]." target=blank>Attachment</a>";
+                                }
+                                echo "</td><td>";
+                                echo "<a href=editevent.php?event_id=".$row1["event_id"]." target=blank>Edit</a>";
+                                echo "</td></tr>";
                         }
                         echo "</table>";
-                }
+                        }
+
 
 } else{
         echo('No Results Found! Please <a href="javascript:history.back()">Go back</a> and try again');
