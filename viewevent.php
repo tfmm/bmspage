@@ -66,7 +66,7 @@ $eventid=$_GET['eventid'];
 			print_r($row1['date_time_end']);
 			echo "</td></tr>";
 			echo "<tr><td>";
-			echo "Event Updates";
+			echo "Event Updates:";
 			echo "</td><td>";
 				$update_query = "SELECT update_desc, update_date_time, update_user FROM event_updates WHERE event_updates.event_id=".$eventid.";";
 				$update_result = $conn1->query($update_query);
@@ -84,15 +84,32 @@ $eventid=$_GET['eventid'];
 						echo "Update Date and Time: ";
 						echo "</td><td>";
 						print_r($update_row['update_date_time']);
-						echo "</td></tr></table>";
+						if(empty($update_row['update_image'])) {
+							echo "</td></tr></table>";
+						} else {
+							echo "<tr><td>";
+							echo "Image: ";
+							echo "</td><td>";
+							echo "<a href=".$update_row['update_image']." target=blank>Attachment</a>";
+						}
 					}
 					} else {
 						echo "No updates to this event";
 					}
 			echo "</td></tr>";
+			if(empty($row1['event_image'])) {
+	                        echo "<tr><td colspan='2' class='ui-helper-center'>";
+        	                echo "<a href=editevent.php?event_id=".$row1['event_id'].">Edit Event</a>";
+                	        echo "</td></tr></table>";
+			} else {
+                        echo "<tr><td>";
+			echo "Attachments:";
+			echo "</td><td>";
+			echo "<a href=".$row1['event_image']." target=blank>Attachment</a>";
 			echo "<tr><td colspan='2' class='ui-helper-center'>";
 			echo "<a href=editevent.php?event_id=".$row1['event_id'].">Edit Event</a>";
 			echo "</td></tr></table>";
+			}
 		}
 		} else {
                         echo "<h4>ERROR Event ID Not Found</h4>";
